@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     
     # Third-Party Apps
+    'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_yasg',
@@ -88,6 +89,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -249,7 +251,7 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:8012",  # Remplace par le domaine de ton frontend
     "http://192.168.1.65:8012",  # Remplace par le domaine de ton frontend
     "http://192.168.2.147:8012",  # Remplace par le domaine de ton frontend
-    "ngondetwilfrid.pythonanywhere.com",
+    "https://ngondetwilfrid.pythonanywhere.com",
 ]
 CORS_ALLOW_HEADERS = [
     "authorization",
