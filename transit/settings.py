@@ -29,8 +29,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "django-insecure-4r2+6=l=k(n07q8h1psn-uk0qltx(l&159n5$locy0k6y)kv^#"
 
 # Initialiser environ
-env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+# env = environ.Env()
+# environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -50,13 +50,12 @@ AUTH_USER_MODEL = 'users.Utilisateur'
 
 # Email Configuration using SMTP for sending emails
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = env("EMAIL_HOST")  # SMTP server host
-EMAIL_PORT = env("EMAIL_PORT")  # SMTP server port
-EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS")  # Whether to use TLS for SMTP (True/False)
-EMAIL_USE_SSL = env.bool("EMAIL_USE_SSL")  # Whether to use SSL for SMTP (True/False)
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")  # SMTP username (e.g., your_email@gmail.com)
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")  # SMTP password
-# DEFAULT_FROM_EMAIL = "transit241@gmail.com"  # Ou env('EMAIL_HOST_USER')
+EMAIL_HOST = 'smtp.gmail.com'  # SMTP server host
+EMAIL_PORT = 587  # SMTP server port
+EMAIL_USE_TLS = True  # Whether to use TLS for SMTP (True/False)
+EMAIL_USE_SSL = False  # Whether to use SSL for SMTP (True/False)
+EMAIL_HOST_USER = 'esfaggabon@gmail.com'  # SMTP username (e.g., your_email@gmail.com)
+EMAIL_HOST_PASSWORD = 'kptmdaqtyfartgjw'  # SMTP password
 
 
 # Application definition
