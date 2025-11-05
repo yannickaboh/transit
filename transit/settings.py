@@ -42,7 +42,14 @@ SECRET_KEY = "django-insecure-4r2+6=l=k(n07q8h1psn-uk0qltx(l&159n5$locy0k6y)kv^#
 DEBUG = True
 
 # IP autorisés
-ALLOWED_HOSTS = ["localhost, 127.0.0.1, 192.168.1.65, 192.168.2.147, ngondetwilfrid.pythonanywhere.com"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "192.168.1.65",
+    "192.168.2.147",
+    "ngondetwilfrid.pythonanywhere.com",
+]
+
 
 
 AUTH_USER_MODEL = 'users.Utilisateur'
@@ -170,6 +177,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 # transit/settings.py
 
