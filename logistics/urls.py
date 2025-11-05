@@ -2,12 +2,16 @@
 
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import ColisViewSet, SuiviStatutViewSet, RetraitColisViewSet, FileUploadView
+from .views import ColisViewSet, SuiviStatutViewSet, RetraitColisViewSet, FileUploadView, FactureViewSet, DeclarationDouaniereViewSet
 
 router = DefaultRouter()
 router.register('colis', ColisViewSet, basename='colis')
 router.register('suivi-statuts', SuiviStatutViewSet, basename='suivi-statut')
 router.register('retraits', RetraitColisViewSet, basename='retrait')
+# --- AJOUT DES NOUVELLES ROUTES ---
+router.register('factures', FactureViewSet, basename='facture')
+router.register('declarations', DeclarationDouaniereViewSet, basename='declaration')
+# ----------------------------------
 
 # Les endpoints spécifiques sont gérés par le router
 # ColisViewSet.track_colis est accessible via le router car il est marqué @action

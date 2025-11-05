@@ -1,6 +1,7 @@
 from django.db import models
 from users.models import Utilisateur # Importation de l'utilisateur personnalisé
 import uuid
+from users.models import Role # <--- AJOUTEZ CET IMPORT !
 
 # --- 1. Colis (Le cœur de l'application) ---
 
@@ -65,3 +66,59 @@ class RetraitColis(models.Model):
     class Meta:
         verbose_name = "Retrait de Colis"
         verbose_name_plural = "Retraits de Colis"
+        
+        
+        
+# logistics/models.py (Ajouter ces classes à la fin du fichier)
+
+# --- 4. Facturation Client ---
+class Facture(models.Model):
+    """Représente une facture associée à un colis."""
+    STATUT_FACTURE_CHOICES = [
+        ('PENDING', 'En Attente de Paiement'),
+        ('PAID', 'Payée'),
+        ('CANCELLED', 'Annulée'),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    colis = models.OneToOneField(Colis, on_delete=models.CASCADE, related_name='facture')
+    montant_total = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Montant Total (XAF)")
+    date_emission = models.DateTimeField(auto_now_add=True)
+    date_paiement = models.DateTimeField(null=True, blank=True)
+    statut = models.CharField(max_length=20, choices=STATUT_FACTURE_CHOICES, default='PENDING')
+    details_frais = models.TextField(blank=True, verbose_name="Détails des frais (Stockage, Manutention, etc.)")
+    
+    class Meta:
+        verbose_name = "Facture"
+        verbose_name_plural = "Factures"
+
+    def __str__(self):
+        return f"Facture #{self.id} pour Colis #{self.colis.id}"
+
+
+# --- 5. Déclaration Douanière ---
+class DeclarationDouaniere(models.Model):
+    """Enregistre les informations de déclaration douanière liées à un colis."""
+    STATUT_DECLARATION_CHOICES = [
+        ('DRAFT', 'Brouillon'),
+        ('SUBMITTED', 'Soumise à la Douane'),
+        ('CLEARED', 'Dédouanée (Bon à Enlever)'),
+        ('REJECTED', 'Rejetée'),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    colis = models.OneToOneField(Colis, on_delete=models.CASCADE, related_name='declaration_douaniere')
+    douanier = models.ForeignKey(Utilisateur, on_delete=models.PROTECT, related_name='declarations_traitees', 
+                                 verbose_name="Douanier Traitant")
+    numero_declaration = models.CharField(max_length=255, unique=True, verbose_name="Numéro de Déclaration Officiel")
+    date_soumission = models.DateTimeField(auto_now_add=True)
+    date_dedouanement = models.DateTimeField(null=True, blank=True)
+    statut = models.CharField(max_length=30, choices=STATUT_DECLARATION_CHOICES, default='DRAFT')
+    documents_url = models.URLField(max_length=500, blank=True, verbose_name="Lien vers Documents Douaniers")
+    
+    class Meta:
+        verbose_name = "Déclaration Douanière"
+        verbose_name_plural = "Déclarations Douanières"
+
+    def __str__(self):
+        return f"Déclaration {self.numero_declaration} pour Colis {self.colis.id}"

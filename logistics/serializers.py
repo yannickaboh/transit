@@ -1,7 +1,7 @@
 # logistics/serializers.py
 
 from rest_framework import serializers
-from .models import Colis, SuiviStatut, RetraitColis
+from .models import Colis, SuiviStatut, RetraitColis, Facture, DeclarationDouaniere
 from users.models import Utilisateur, Role, Permission
 from users.serializers import ClientMinimalSerializer
 
@@ -109,3 +109,39 @@ class FileUploadSerializer(serializers.Serializer):
     
     # Vous pouvez ajouter ici la logique de validation de type de fichier
     # (ex: seulement JPG/PNG) si nécessaire.
+    
+    
+    
+    
+# logistics/serializers.py (Ajouter ces classes)
+
+# ... (Assurez-vous que l'import de Utilisateur est là : from users.models import Utilisateur, ...)
+
+# --- Sérielseurs pour les Factures ---
+class FactureSerializer(serializers.ModelSerializer):
+    """Sérialiseur standard pour la gestion des Factures."""
+    # Affichage minimal du colis lié
+    colis_minimal = ColisMinimalSerializer(source='colis', read_only=True)
+    
+    class Meta:
+        model = Facture
+        fields = '__all__'
+        read_only_fields = ('date_emission', 'date_paiement',) # Date de paiement sera mise à jour via une action
+
+# --- Sérielseurs pour les Déclarations Douanières ---
+class DeclarationDouaniereSerializer(serializers.ModelSerializer):
+    """Sérialiseur standard pour la gestion des Déclarations Douanières."""
+    # L'ID du douanier est envoyé en écriture (PrimaryKey)
+    # Les détails du douanier sont affichés en lecture seule
+    douanier_details = AgentValidationMinimalSerializer(source='douanier', read_only=True)
+    
+    class Meta:
+        model = DeclarationDouaniere
+        fields = '__all__'
+        read_only_fields = ('date_soumission', 'date_dedouanement',)
+        
+    def validate_douanier(self, value):
+        """Validation pour s'assurer que l'utilisateur lié est bien un Douanier."""
+        if not value.role or value.role.nom != 'Douanier':
+            raise serializers.ValidationError("L'utilisateur spécifié doit avoir le rôle 'Douanier'.")
+        return value
