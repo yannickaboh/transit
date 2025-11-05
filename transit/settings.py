@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ""
+SECRET_KEY = "django-insecure-4r2+6=l=k(n07q8h1psn-uk0qltx(l&159n5$locy0k6y)kv^#"
 
 # Initialiser environ
 env = environ.Env()
@@ -36,13 +36,13 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("DJANGO_SECRET_KEY")
+# SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool("DJANGO_DEBUG", default=True)
+DEBUG = True
 
 # IP autorisés
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["*"])
+ALLOWED_HOSTS = ["localhost, 127.0.0.1, 192.168.1.65, 192.168.2.147, ngondetwilfrid.pythonanywhere.com"]
 
 
 AUTH_USER_MODEL = 'users.Utilisateur'
@@ -241,6 +241,7 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:8012",  # Remplace par le domaine de ton frontend
     "http://192.168.1.65:8012",  # Remplace par le domaine de ton frontend
     "http://192.168.2.147:8012",  # Remplace par le domaine de ton frontend
+    "ngondetwilfrid.pythonanywhere.com",
 ]
 CORS_ALLOW_HEADERS = [
     "authorization",
