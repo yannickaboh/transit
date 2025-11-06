@@ -47,6 +47,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "192.168.1.65",
     "192.168.2.147",
+    "192.168.43.161",
     "ngondetwilfrid.pythonanywhere.com",
 ]
 
@@ -245,18 +246,43 @@ if DEBUG:
 
 
 # CORS Config
-CORS_ALLOW_ALL_ORIGINS = True  # Ou configure des domaines spécifiques
-CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:8012",  # Remplace par le domaine de ton frontend
-    "http://192.168.1.65:8012",  # Remplace par le domaine de ton frontend
-    "http://192.168.2.147:8012",  # Remplace par le domaine de ton frontend
+# --- CORS & CSRF configuration complète pour PythonAnywhere ---
+
+CORS_ALLOW_ALL_ORIGINS = True  # À garder activé le temps des tests
+
+CORS_ALLOWED_ORIGINS = [
     "https://ngondetwilfrid.pythonanywhere.com",
+    "http://localhost:8012",
+    "http://127.0.0.1:8012",
+    "http://192.168.1.65:8012",
+    "http://192.168.2.147:8012",
+    "http://192.168.43.161:8012",
 ]
+
+# Autoriser l’envoi du cookie CSRF entre ton frontend et le backend
+CORS_ALLOW_CREDENTIALS = True
+
+# Autoriser le header CSRF utilisé par Swagger ou les navigateurs
 CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
     "authorization",
     "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
 ]
+
+# CSRF : autoriser PythonAnywhere à recevoir des requêtes cross-site
+CSRF_TRUSTED_ORIGINS = [
+    "https://ngondetwilfrid.pythonanywhere.com",
+    "https://*.pythonanywhere.com",
+    "http://localhost:8012",
+    "http://127.0.0.1:8012",
+]
+
 
 
 
