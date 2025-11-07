@@ -220,7 +220,7 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=2),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     # Permet l'utilisation de l'email comme identifiant
     'AUTH_HEADER_TYPES': ('Bearer',),
@@ -230,7 +230,7 @@ SIMPLE_JWT = {
 
 # Sécurité en production
 if not DEBUG:
-    SECURE_HSTS_SECONDS = 3600
+    SECURE_HSTS_SECONDS = 360000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
     SECURE_SSL_REDIRECT = True
